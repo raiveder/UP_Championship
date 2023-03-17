@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">World Skills</string>
+    <string name="greeting">ПРИВЕТ</string>
+    <string name="instruction">Наслаждайся отборочными,\nбудь внимателен.\nДелай хорошо.</string>
+    <string name="question">Ещё нет аккаунта?</string>
+    <string name="reg">Зарегистрируйтесь</string>
+    <string name="autho">Войти в аккаунт</string>
+    <string name="signIn">Sign in</string>
+    <string name="email">Email</string>
+    <string name="pass">Пароль</string>
+    <string name="register">Register</string>
+    <string name="profile">Профиль</string>
+    <string name="mainMenuGreeting">С возвращением, Эмиль!</string>
+    <string name="mainMenuQuestion">Каким ты ощущаешь себя сегодня?</string>
+    <string name="calm">Спокойным</string>
+    <string name="relaxed">Расслабленным</string>
+    <string name="focused">Сосредоточенным</string>
+    <string name="excited">Взволнованным</string>
+    <string name="header">Заголовок блока</string>
+    <string name="text">Кратенькое описание\nблока с двумя строчками</string>
+    <string name="more">подробнее</string>
+    <string name="exit">exit</string>
+</resources>
