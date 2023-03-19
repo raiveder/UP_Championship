@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Чемпионат</string>
-    <string name="greeting">ПРИВЕТ</string>
+    <string name="greeting">Привет</string>
     <string name="instruction">Наслаждайся отборочными,\nбудь внимателен.\nДелай хорошо.</string>
     <string name="question">Ещё нет аккаунта?</string>
     <string name="reg">Зарегистрируйтесь</string>
-    <string name="autho">Войти в аккаунт</string>
+    <string name="entry">Войти в аккаунт</string>
     <string name="signIn">Sign in</string>
     <string name="email">Email</string>
     <string name="pass">Пароль</string>
@@ -22,4 +22,6 @@
     <string name="exit">exit</string>
     <string name="hereMenu">Тут будет меню</string>
     <string name="hereListen">Тут будет прослушивание</string>
+    <string name="delete">удалить</string>
+    <string name="close">закрыть</string>
 </resources>

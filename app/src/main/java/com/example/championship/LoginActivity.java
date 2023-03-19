@@ -54,21 +54,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnSignIn:
             case R.id.btnProfile:
                 EditText email = findViewById(R.id.tvEmail);
-                EditText pass = findViewById(R.id.tvPassword);
+                EditText password = findViewById(R.id.tvPassword);
 
-                if (email.getText().length() == 0 || pass.getText().length() == 0) {
-                    Toast.makeText(LoginActivity.this, "Заполните оба поля",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                checkData(email.getText().toString(), password.getText().toString());
 
-                if (!email.getText().toString().contains("@")) {
-                    Toast.makeText(LoginActivity.this, "В логине отсутствует" +
-                            "символ \"@\"", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                authorization(email.getText().toString(), pass.getText().toString());
+                authorization(email.getText().toString(), password.getText().toString());
                 break;
 
             case R.id.tvReg:
@@ -76,6 +66,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         RegisterActivity.class));
                 break;
         }
+    }
+
+    private boolean checkData(String email, String password) {
+
+        if (email.length() == 0 || password.length() == 0) {
+            Toast.makeText(LoginActivity.this, "Заполните оба поля",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!email.contains("@")) {
+            Toast.makeText(LoginActivity.this, "В логине отсутствует" +
+                    "символ \"@\"", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void authorization(String email, String password) {

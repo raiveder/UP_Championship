@@ -24,20 +24,19 @@ import java.io.OutputStream;
 @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static final int GALLERY_REQUEST = 1;
+    private static final int GALLERY_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        findViewById(R.id.tvExit).setOnClickListener(this);
-
         new DownloadImages(findViewById(R.id.imgAvatar), findViewById(R.id.pbWait)).
                 execute(MainActivity.user.getAvatar());
         TextView tvName = findViewById(R.id.tvName);
         tvName.setText(MainActivity.user.getNickName());
 
+        findViewById(R.id.tvExit).setOnClickListener(this);
 
         findViewById(R.id.imgTest).setOnClickListener(v -> {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);

@@ -12,10 +12,10 @@ public class Users {
     public Users() {
     }
 
-    public Users(String Email, String Password) {
+    public Users(String email, String password) {
 
-        email = Email;
-        password = Password;
+        this.email = email;
+        this.password = password;
     }
 
     public String getNickName() {
