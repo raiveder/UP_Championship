@@ -5,14 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+
+    static final int GALLERY_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +37,66 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 execute(MainActivity.user.getAvatar());
         TextView tvName = findViewById(R.id.tvName);
         tvName.setText(MainActivity.user.getNickName());
+
+
+        findViewById(R.id.imgTest).setOnClickListener(v -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch (requestCode) {
+
+            case GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Bitmap bitmap = null;
+                    Uri selectedImage = imageReturnedIntent.getData();
+
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        Toast.makeText(ProfileActivity.this, "Ошибка: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    ImageView imgTest = findViewById(R.id.imgTest);
+                    imgTest.setImageBitmap(bitmap);
+
+                    saveImageFile(bitmap, "testFile.jpg");
+                }
+                break;
+        }
+    }
+
+    private void saveImageFile(Bitmap bitmap, String fileName) {
+
+        File direct = new File(getFilesDir() + "/UserPhoto/");
+
+        if (!direct.exists()) {
+            File newDir = new File(getFilesDir() + "/UserPhoto/");
+            newDir.mkdirs();
+        }
+
+        File file = new File(direct, fileName);
+
+        try {
+            OutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            Toast.makeText(ProfileActivity.this, "Фото успешно добавлено",
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(ProfileActivity.this, "Ошибка: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
