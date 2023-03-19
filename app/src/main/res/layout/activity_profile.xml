@@ -24,7 +24,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/menu" />
+            app:srcCompat="@drawable/menu_bars" />
 
         <ImageView
             android:layout_width="70dp"
@@ -110,13 +110,13 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/note" />
+            app:srcCompat="@drawable/menu_listen" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/user" />
+            app:srcCompat="@drawable/menu_profile" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
