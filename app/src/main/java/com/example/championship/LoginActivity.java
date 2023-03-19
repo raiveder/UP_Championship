@@ -3,8 +3,10 @@ package com.example.championship;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +19,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AuthorizationActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authorization);
+        setContentView(R.layout.activity_login);
 
         TextView tv = findViewById(R.id.reg);
         tv.setOnClickListener(this);
@@ -45,13 +47,13 @@ public class AuthorizationActivity extends AppCompatActivity implements View.OnC
                 EditText pass = findViewById(R.id.pass);
 
                 if (email.getText().length() == 0 || pass.getText().length() == 0) {
-                    Toast.makeText(AuthorizationActivity.this, "Заполните оба поля",
+                    Toast.makeText(LoginActivity.this, "Заполните оба поля",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!email.getText().toString().contains("@")) {
-                    Toast.makeText(AuthorizationActivity.this, "В логине отсутствует" +
+                    Toast.makeText(LoginActivity.this, "В логине отсутствует" +
                             "символ \"@\"", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -60,8 +62,8 @@ public class AuthorizationActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.reg:
-                startActivity(new Intent(AuthorizationActivity.this,
-                        RegActivity.class));
+                startActivity(new Intent(LoginActivity.this,
+                        RegisterActivity.class));
                 break;
         }
     }
@@ -83,20 +85,31 @@ public class AuthorizationActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onResponse(Call<Users> call, Response<Users> response) {
 
-                new Handler().postDelayed(() -> startActivity(new Intent(
-                                AuthorizationActivity.this, MainMenuActivity.class)),
-                        500);
+                MainActivity.Name = response.body().getNickName();
+                MainActivity.Avatar = response.body().getAvatar();
+                saveLogin();
 
-                MainMenuActivity.Name = response.body().getNickName();
-                MainMenuActivity.Avatar = response.body().getAvatar();
+                new Handler().postDelayed(() -> startActivity(new Intent(
+                        LoginActivity.this, MainActivity.class)), 500);
             }
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
 
-                Toast.makeText(AuthorizationActivity.this, "Ошибка: " + t.getMessage(),
+                Toast.makeText(LoginActivity.this, "Ошибка: " + t.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void saveLogin() {
+
+        SharedPreferences prefs = PreferenceManager.
+                getDefaultSharedPreferences(LoginActivity.this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("alreadyLogin", true);
+        editor.putString("nickName", MainActivity.Name);
+        editor.putString("avatar", MainActivity.Avatar);
+        editor.apply();
     }
 }

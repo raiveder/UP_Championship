@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">World Skills</string>
+    <string name="app_name">Чемпионат</string>
     <string name="greeting">ПРИВЕТ</string>
     <string name="instruction">Наслаждайся отборочными,\nбудь внимателен.\nДелай хорошо.</string>
     <string name="question">Ещё нет аккаунта?</string>
@@ -20,4 +20,6 @@
     <string name="text">Кратенькое описание\nблока с двумя строчками</string>
     <string name="more">подробнее</string>
     <string name="exit">exit</string>
+    <string name="hereMenu">Тут будет меню</string>
+    <string name="hereListen">Тут будет прослушивание</string>
 </resources>

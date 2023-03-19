@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gunmetal"
-    tools:context=".AuthorizationActivity">
+    tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -54,10 +54,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:hint="@string/pass"
+        android:text="general"
         android:textColor="@color/white"
         android:textColorHint="@color/gray"
         android:textSize="20dp"
-        android:text="general"
         app:layout_constraintBottom_toTopOf="@id/btnSignIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

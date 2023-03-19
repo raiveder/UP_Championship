@@ -26,10 +26,10 @@ public class OnboardingActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signIn:
-                startActivity(new Intent(OnboardingActivity.this, AuthorizationActivity.class));
+                startActivity(new Intent(OnboardingActivity.this, LoginActivity.class));
                 break;
             case R.id.signUp:
-                startActivity(new Intent(OnboardingActivity.this, RegActivity.class));
+                startActivity(new Intent(OnboardingActivity.this, RegisterActivity.class));
                 break;
         }
     }
