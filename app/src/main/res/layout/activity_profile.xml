@@ -106,13 +106,13 @@
             app:srcCompat="@drawable/logo" />
 
         <ImageView
+            android:id="@+id/imgListen"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/note" />
 
         <ImageView
-            android:id="@+id/profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"

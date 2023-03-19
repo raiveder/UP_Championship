@@ -39,12 +39,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void InitializeComponent() {
 
-        new DownloadImages(findViewById(R.id.avatar), findViewById(R.id.pbWait)).
+        new DownloadImages(findViewById(R.id.imgAvatar), findViewById(R.id.pbWait)).
                 execute(user.getAvatar());
 
-        findViewById(R.id.menu).setOnClickListener(this);
-        findViewById(R.id.avatar).setOnClickListener(this);
-        findViewById(R.id.profile).setOnClickListener(this);
+        findViewById(R.id.imgMenu).setOnClickListener(this);
+        findViewById(R.id.imgAvatar).setOnClickListener(this);
+        findViewById(R.id.imgProfile).setOnClickListener(this);
+        findViewById(R.id.imgListen).setOnClickListener(this);
 
         TextView tvGreeting = findViewById(R.id.tvGreeting);
         tvGreeting.setText("С возвращением, " + user.getNickName() + "!");
@@ -119,14 +120,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.menu:
+            case R.id.imgMenu:
                 startActivity(new Intent(MainActivity.this, MenuActivity.class));
                 break;
 
-            case R.id.avatar:
-            case R.id.profile:
+            case R.id.imgAvatar:
+            case R.id.imgProfile:
                 startActivity(new Intent(MainActivity.this,
                         ProfileActivity.class));
+                break;
+
+            case R.id.imgListen:
+                startActivity(new Intent(MainActivity.this,
+                        ListenActivity.class));
                 break;
         }
     }

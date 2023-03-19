@@ -31,12 +31,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        new DownloadImages(findViewById(R.id.imgAvatar), findViewById(R.id.pbWait)).
-                execute(MainActivity.user.getAvatar());
-        TextView tvName = findViewById(R.id.tvName);
-        tvName.setText(MainActivity.user.getNickName());
-
-        findViewById(R.id.tvExit).setOnClickListener(this);
+        initializeComponent();
 
         findViewById(R.id.imgTest).setOnClickListener(v -> {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -44,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -98,6 +92,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void initializeComponent() {
+
+        new DownloadImages(findViewById(R.id.imgAvatar), findViewById(R.id.pbWait)).
+                execute(MainActivity.user.getAvatar());
+
+        TextView tvName = findViewById(R.id.tvName);
+        tvName.setText(MainActivity.user.getNickName());
+
+        findViewById(R.id.tvExit).setOnClickListener(this);
+        findViewById(R.id.imgListen).setOnClickListener(this);
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -107,6 +113,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 saveEmail();
                 startActivity(new Intent(ProfileActivity.this,
                         LoginActivity.class));
+                break;
+
+            case R.id.imgListen:
+                startActivity(new Intent(ProfileActivity.this,
+                        ListenActivity.class));
                 break;
         }
     }

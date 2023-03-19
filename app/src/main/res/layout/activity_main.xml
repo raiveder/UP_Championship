@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/menu"
+            android:id="@+id/imgMenu"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -46,7 +46,7 @@
                 app:cardCornerRadius="100dp">
 
                 <ImageView
-                    android:id="@+id/avatar"
+                    android:id="@+id/imgAvatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp" />
 
@@ -128,13 +128,14 @@
             app:srcCompat="@drawable/logo" />
 
         <ImageView
+            android:id="@+id/imgListen"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/note" />
 
         <ImageView
-            android:id="@+id/profile"
+            android:id="@+id/imgProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
