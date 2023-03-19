@@ -12,14 +12,28 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/imageFeeling"
+        <RelativeLayout
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             android:background="@drawable/main_menu_background"
-            android:padding="10dp" />
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imgFeeling"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_foreground" />
+
+            <ProgressBar
+                android:id="@+id/pbWait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="visible" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvFeeling"

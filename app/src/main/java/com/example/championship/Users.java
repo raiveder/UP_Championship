@@ -9,6 +9,9 @@ public class Users {
     private String avatar;
     private String token;
 
+    public Users() {
+    }
+
     public Users(String Email, String Password) {
 
         email = Email;
@@ -21,5 +24,21 @@ public class Users {
 
     public String getAvatar() {
         return avatar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

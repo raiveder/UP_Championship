@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,7 @@ public class AdapterFeelings extends RecyclerView.Adapter<AdapterFeelings.ViewHo
 
         Feelings feeling = feelingsList.get(position);
         holder.tvFeeling.setText(feeling.getTitle());
-        new DownloadImages(holder.imageFeeling).execute(feeling.getImage());
+        new DownloadImages(holder.imageFeeling, holder.pbWait).execute(feeling.getImage());
     }
 
     @Override
@@ -48,11 +49,13 @@ public class AdapterFeelings extends RecyclerView.Adapter<AdapterFeelings.ViewHo
 
         final ImageView imageFeeling;
         final TextView tvFeeling;
+        final ProgressBar pbWait;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageFeeling = itemView.findViewById(R.id.imageFeeling);
+            imageFeeling = itemView.findViewById(R.id.imgFeeling);
             tvFeeling = itemView.findViewById(R.id.tvFeeling);
+            pbWait = itemView.findViewById(R.id.pbWait);
         }
     }
 }

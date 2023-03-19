@@ -8,19 +8,19 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/imgLogo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="40dp"
         android:scaleType="centerCrop"
 
-        app:layout_constraintBottom_toTopOf="@id/lbSignIn"
+        app:layout_constraintBottom_toTopOf="@id/tvSignIn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/lbSignIn"
+        android:id="@+id/tvSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -29,39 +29,39 @@
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/email"
+        app:layout_constraintBottom_toTopOf="@id/tvEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:layout_constraintTop_toBottomOf="@id/imgLogo" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/tvEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:hint="@string/email"
-        android:text="general@wsr.ru"
+        android:text="general@wsr.rus"
         android:textColor="@color/white"
         android:textColorHint="@color/gray"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@id/pass"
+        app:layout_constraintBottom_toTopOf="@id/tvPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbSignIn" />
+        app:layout_constraintTop_toBottomOf="@id/tvSignIn" />
 
     <EditText
-        android:id="@+id/pass"
+        android:id="@+id/tvPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:hint="@string/pass"
-        android:text="general"
+        android:text="generals"
         android:textColor="@color/white"
         android:textColorHint="@color/gray"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@id/btnSignIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email" />
+        app:layout_constraintTop_toBottomOf="@id/tvEmail" />
 
     <android.widget.Button
         android:id="@+id/btnSignIn"
@@ -74,13 +74,13 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@id/reg"
+        app:layout_constraintBottom_toTopOf="@id/tvReg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pass" />
+        app:layout_constraintTop_toBottomOf="@id/tvPassword" />
 
     <TextView
-        android:id="@+id/reg"
+        android:id="@+id/tvReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -106,7 +106,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reg" />
+        app:layout_constraintTop_toBottomOf="@id/tvReg" />
 
     <ImageView
         android:id="@+id/imageView"

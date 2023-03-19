@@ -2,13 +2,13 @@ package com.example.championship;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +19,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@SuppressLint("MissingInflatedId")
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -26,14 +27,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        TextView tv = findViewById(R.id.reg);
-        tv.setOnClickListener(this);
+        findViewById(R.id.tvReg).setOnClickListener(this);
+        findViewById(R.id.btnSignIn).setOnClickListener(this);
+        findViewById(R.id.btnProfile).setOnClickListener(this);
 
-        Button btnSignIn = findViewById(R.id.btnSignIn);
-        btnSignIn.setOnClickListener(this);
+        setEmail();
+    }
 
-        Button btnProfile = findViewById(R.id.btnProfile);
-        btnProfile.setOnClickListener(this);
+    private void setEmail() {
+
+        SharedPreferences prefs = PreferenceManager.
+                getDefaultSharedPreferences(LoginActivity.this);
+
+        String email = prefs.getString("email", "");
+        if (!email.equals("")) {
+            TextView tvEmail = findViewById(R.id.tvEmail);
+            tvEmail.setText(email);
+        }
     }
 
     @Override
@@ -43,8 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btnSignIn:
             case R.id.btnProfile:
-                EditText email = findViewById(R.id.email);
-                EditText pass = findViewById(R.id.pass);
+                EditText email = findViewById(R.id.tvEmail);
+                EditText pass = findViewById(R.id.tvPassword);
 
                 if (email.getText().length() == 0 || pass.getText().length() == 0) {
                     Toast.makeText(LoginActivity.this, "Заполните оба поля",
@@ -61,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 authorization(email.getText().toString(), pass.getText().toString());
                 break;
 
-            case R.id.reg:
+            case R.id.tvReg:
                 startActivity(new Intent(LoginActivity.this,
                         RegisterActivity.class));
                 break;
@@ -85,12 +95,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<Users> call, Response<Users> response) {
 
-                MainActivity.Name = response.body().getNickName();
-                MainActivity.Avatar = response.body().getAvatar();
-                saveLogin();
+                if (response.body() != null) {
+                    MainActivity.user.setNickName(response.body().getNickName());
+                    MainActivity.user.setAvatar(response.body().getAvatar());
+                    MainActivity.user.setEmail(response.body().getEmail());
+                    saveLogin();
 
-                new Handler().postDelayed(() -> startActivity(new Intent(
-                        LoginActivity.this, MainActivity.class)), 500);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    Toast.makeText(LoginActivity.this, "Пользователь не найден",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -108,8 +123,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 getDefaultSharedPreferences(LoginActivity.this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("alreadyLogin", true);
-        editor.putString("nickName", MainActivity.Name);
-        editor.putString("avatar", MainActivity.Avatar);
+        editor.putString("nickName", MainActivity.user.getNickName());
+        editor.putString("avatar", MainActivity.user.getAvatar());
         editor.apply();
     }
 }

@@ -15,19 +15,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        MainActivity.user = new Users();
+
         SharedPreferences prefs = PreferenceManager.
                 getDefaultSharedPreferences(SplashScreenActivity.this);
 
         if (prefs.getBoolean("alreadyLogin", false)) {
-            MainActivity.Name = prefs.getString("nickName", "");
-            MainActivity.Avatar = prefs.getString("avatar", "");
-
+            MainActivity.user.setNickName(prefs.getString("nickName", ""));
+            MainActivity.user.setAvatar(prefs.getString("avatar", ""));
             new Handler().postDelayed(() -> startActivity(new Intent(
                     SplashScreenActivity.this, MainActivity.class)), 3500);
         } else {
-            new Handler().postDelayed(() -> startActivity(new Intent(
-                            SplashScreenActivity.this, OnboardingActivity.class)),
-                    3500);
+            new Handler().postDelayed(() -> startActivity(
+                    new Intent(SplashScreenActivity.this,
+                            OnboardingActivity.class)), 3500);
         }
     }
 }

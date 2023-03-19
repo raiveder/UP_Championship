@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -44,12 +45,13 @@ public class AdapterQuotes extends BaseAdapter {
 
         TextView tvHeader = v.findViewById(R.id.tvHeader);
         TextView tvDescription = v.findViewById(R.id.tvDescription);
-        ImageView image = v.findViewById(R.id.image);
+        ImageView image = v.findViewById(R.id.imgQuotes);
+        ProgressBar pbWait = v.findViewById(R.id.pbWait);
 
         Quotes quote = QuotesList.get(i);
         tvHeader.setText(quote.getTitle());
         tvDescription.setText(quote.getDescription());
-        new DownloadImages(image).execute(quote.getImage());
+        new DownloadImages(image, pbWait).execute(quote.getImage());
 
         return v;
     }

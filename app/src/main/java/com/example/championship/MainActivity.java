@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static String Name;
-    public static String Avatar;
+    public static Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void InitializeComponent() {
 
-        new DownloadImages(findViewById(R.id.avatar)).execute(Avatar);
+        new DownloadImages(findViewById(R.id.avatar), findViewById(R.id.pbWait)).
+                execute(user.getAvatar());
 
         findViewById(R.id.menu).setOnClickListener(this);
         findViewById(R.id.avatar).setOnClickListener(this);
         findViewById(R.id.profile).setOnClickListener(this);
 
         TextView tvGreeting = findViewById(R.id.tvGreeting);
-        tvGreeting.setText("С возвращением, " + Name + "!");
+        tvGreeting.setText("С возвращением, " + user.getNickName() + "!");
     }
 
     private void setFeelings() {
