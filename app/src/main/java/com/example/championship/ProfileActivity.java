@@ -5,18 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +20,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
@@ -91,10 +84,12 @@ public class ProfileActivity extends AppCompatActivity
                     Uri selectedImage = imageReturnedIntent.getData();
 
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+                                selectedImage);
                         saveImageFile(bitmap);
                     } catch (IOException e) {
-                        Toast.makeText(ProfileActivity.this, "Ошибка: " + e.getMessage(),
+                        Toast.makeText(ProfileActivity.this,
+                                "Ошибка: " + e.getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }

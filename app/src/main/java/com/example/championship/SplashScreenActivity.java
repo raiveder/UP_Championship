@@ -23,12 +23,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (prefs.getBoolean("alreadyLogin", false)) {
             MainActivity.user.setNickName(prefs.getString("nickName", ""));
             MainActivity.user.setAvatar(prefs.getString("avatar", ""));
+            MainActivity.user.setEmail(prefs.getString("email", ""));
             new Handler().postDelayed(() -> startActivity(new Intent(
                     SplashScreenActivity.this, MainActivity.class)), 3500);
         } else {
             new Handler().postDelayed(() -> startActivity(
                     new Intent(SplashScreenActivity.this,
-                            OnboardingActivity.class)), 3500);
+                            OnboardingActivity.class)), 2000);
         }
     }
 }

@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     MainActivity.user.setNickName(response.body().getNickName());
                     MainActivity.user.setAvatar(response.body().getAvatar());
                     MainActivity.user.setEmail(response.body().getEmail());
-                    saveLogin();
+                    saveData();
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void saveLogin() {
+    private void saveData() {
 
         SharedPreferences prefs = PreferenceManager.
                 getDefaultSharedPreferences(LoginActivity.this);
@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.putBoolean("alreadyLogin", true);
         editor.putString("nickName", MainActivity.user.getNickName());
         editor.putString("avatar", MainActivity.user.getAvatar());
+        editor.putString("email", MainActivity.user.getEmail());
         editor.apply();
     }
 }
