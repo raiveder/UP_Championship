@@ -40,19 +40,24 @@ public class AdapterPhotos extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = View.inflate(context, R.layout.item_photos, null);
+        View v;
+        if (fileNames[position] != null) {
+            v = View.inflate(context, R.layout.item_photos_img, null);
 
-        ImageView imgPhoto = v.findViewById(R.id.imgPhoto);
-        TextView tvTime = v.findViewById(R.id.tvTime);
+            ImageView imgPhoto = v.findViewById(R.id.imgPhoto);
+            TextView tvTime = v.findViewById(R.id.tvTime);
 
-        String fileName = fileNames[position].toString();
-        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-        imgPhoto.setImageBitmap(bitmap);
+            String fileName = fileNames[position].toString();
+            Bitmap bitmap = BitmapFactory.decodeFile(fileName);
+            imgPhoto.setImageBitmap(bitmap);
 
-        int indexDot = fileName.lastIndexOf('-');
-        String time = fileName.substring(indexDot - 5, indexDot);
-        time = time.replace('-', ':');
-        tvTime.setText(time);
+            int indexDot = fileName.lastIndexOf('-');
+            String time = fileName.substring(indexDot - 5, indexDot);
+            time = time.replace('-', ':');
+            tvTime.setText(time);
+        } else {
+            v = View.inflate(context, R.layout.item_photos_btn, null);
+        }
 
         return v;
     }

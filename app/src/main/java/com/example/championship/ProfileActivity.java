@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
@@ -22,10 +24,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
@@ -34,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity
 
     private GridView gvImages;
     private static final int GALLERY_REQUEST = 1;
+    private AdapterPhotos adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +61,21 @@ public class ProfileActivity extends AppCompatActivity
         findViewById(R.id.tvExit).setOnClickListener(this);
         findViewById(R.id.imgListen).setOnClickListener(this);
 
+        setImages();
+    }
+
+    private void setImages() {
+
         File direct = new File(getFilesDir() + "/UserPhoto");
-        AdapterPhotos adapter = new AdapterPhotos(this, direct.listFiles());
+        File[] files = direct.listFiles();
+        if (files != null) {
+            File[] newFiles = new File[files.length + 1];
+            System.arraycopy(files, 0, newFiles, 0, files.length);
+            adapter = new AdapterPhotos(this, newFiles);
+        } else {
+            adapter = new AdapterPhotos(this, new File[1]);
+        }
+
         gvImages.setAdapter(adapter);
     }
 
@@ -107,8 +125,7 @@ public class ProfileActivity extends AppCompatActivity
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             outputStream.flush();
             outputStream.close();
-            AdapterPhotos adapter = new AdapterPhotos(this, directoryFile.listFiles());
-            gvImages.setAdapter(adapter);
+            setImages();
 
             Toast.makeText(ProfileActivity.this, "Фото успешно добавлено",
                     Toast.LENGTH_SHORT).show();
@@ -149,8 +166,14 @@ public class ProfileActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+        if (id == gvImages.getCount() - 1) {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+        } else {
+            Intent intent = new Intent(ProfileActivity.this, PhotoActivity.class);
+            intent.putExtra("fileName", adapter.getItem(position).toString());
+            startActivity(intent);
+        }
     }
 }

@@ -83,7 +83,7 @@
         android:id="@+id/gvImages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:numColumns="@integer/material_motion_duration_long_2"
+        android:numColumns="2"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="20dp"
         app:layout_constraintBottom_toTopOf="@id/llDown"
