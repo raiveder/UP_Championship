@@ -6,8 +6,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/fern"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/photo_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,7 @@
             android:text="@string/plus"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="100dp" />
+            android:textSize="70dp" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
