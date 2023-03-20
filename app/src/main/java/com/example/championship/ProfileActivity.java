@@ -6,12 +6,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,10 +22,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity
+        implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+    private GridView gvImages;
     private static final int GALLERY_REQUEST = 1;
 
     @Override
@@ -32,12 +41,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
 
         initializeComponent();
+    }
 
-        findViewById(R.id.imgTest).setOnClickListener(v -> {
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-        });
+    private void initializeComponent() {
+
+        new DownloadImages(findViewById(R.id.imgAvatar), findViewById(R.id.pbWait)).
+                execute(MainActivity.user.getAvatar());
+
+        TextView tvName = findViewById(R.id.tvName);
+        tvName.setText(MainActivity.user.getNickName());
+
+        gvImages = findViewById(R.id.gvImages);
+        gvImages.setOnItemClickListener(this);
+        findViewById(R.id.tvExit).setOnClickListener(this);
+        findViewById(R.id.imgListen).setOnClickListener(this);
+
+        File direct = new File(getFilesDir() + "/UserPhoto");
+        AdapterPhotos adapter = new AdapterPhotos(this, direct.listFiles());
+        gvImages.setAdapter(adapter);
     }
 
     @Override
@@ -53,36 +74,41 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                        saveImageFile(bitmap);
                     } catch (IOException e) {
                         Toast.makeText(ProfileActivity.this, "Ошибка: " + e.getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
-
-                    ImageView imgTest = findViewById(R.id.imgTest);
-                    imgTest.setImageBitmap(bitmap);
-
-                    saveImageFile(bitmap, "testFile.jpg");
                 }
                 break;
         }
     }
 
-    private void saveImageFile(Bitmap bitmap, String fileName) {
+    private void saveImageFile(Bitmap bitmap) {
 
-        File direct = new File(getFilesDir() + "/UserPhoto/");
+        String directoryString = getFilesDir() + "/UserPhoto/";
 
-        if (!direct.exists()) {
-            File newDir = new File(getFilesDir() + "/UserPhoto/");
-            newDir.mkdirs();
+        File directoryFile = new File(directoryString);
+
+        if (!directoryFile.exists()) {
+            directoryFile.mkdirs();
         }
 
-        File file = new File(direct, fileName);
+        Date currentDate = new Date();
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        currentDate.setHours(currentDate.getHours() + 3);
+        String time = timeFormat.format(currentDate);
+        time = time.replace(':', '-');
+
+        File file = new File(directoryString + System.currentTimeMillis() + time + ".jpg");
 
         try {
             OutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             outputStream.flush();
             outputStream.close();
+            AdapterPhotos adapter = new AdapterPhotos(this, directoryFile.listFiles());
+            gvImages.setAdapter(adapter);
 
             Toast.makeText(ProfileActivity.this, "Фото успешно добавлено",
                     Toast.LENGTH_SHORT).show();
@@ -90,18 +116,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(ProfileActivity.this, "Ошибка: " + e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void initializeComponent() {
-
-        new DownloadImages(findViewById(R.id.imgAvatar), findViewById(R.id.pbWait)).
-                execute(MainActivity.user.getAvatar());
-
-        TextView tvName = findViewById(R.id.tvName);
-        tvName.setText(MainActivity.user.getNickName());
-
-        findViewById(R.id.tvExit).setOnClickListener(this);
-        findViewById(R.id.imgListen).setOnClickListener(this);
     }
 
     @Override
@@ -130,5 +144,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         editor.putBoolean("alreadyLogin", false);
         editor.putString("email", MainActivity.user.getEmail());
         editor.apply();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
     }
 }
