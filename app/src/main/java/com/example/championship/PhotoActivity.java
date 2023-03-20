@@ -2,6 +2,7 @@ package com.example.championship;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,11 +15,13 @@ import android.widget.Toast;
 
 import java.io.File;
 
+@SuppressLint({"ClickableViewAccessibility", "NonConstantResourceId"})
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private ImageView imgPhoto;
     private long currentTouchTime = 0;
     private boolean isDefaultImageSize = true;
+    private boolean isDoubleClick = true;
     private String fileName;
     private GestureDetector gdt = new GestureDetector(new GestureListener());
     private int SWIPE_MIN_DISTANCE = 120;
@@ -30,7 +33,6 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_photo);
 
         imgPhoto = findViewById(R.id.imgPhoto);
-        imgPhoto.setOnClickListener(this);
         imgPhoto.setOnTouchListener(this);
 
         findViewById(R.id.tvDelete).setOnClickListener(this);
@@ -78,7 +80,30 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
+        if (isDoubleClick) {
+            long lastTouchTime = currentTouchTime;
+            currentTouchTime = System.currentTimeMillis();
+
+            if (currentTouchTime - lastTouchTime <= 300) {
+                if (isDefaultImageSize) {
+                    imgPhoto.getLayoutParams().width = imgPhoto.getWidth() * 2;
+                    imgPhoto.getLayoutParams().height = imgPhoto.getHeight() * 2;
+                    isDefaultImageSize = false;
+                } else {
+                    imgPhoto.getLayoutParams().width = imgPhoto.getWidth() / 2;
+                    imgPhoto.getLayoutParams().height = imgPhoto.getHeight() / 2;
+                    isDefaultImageSize = true;
+                }
+
+                imgPhoto.requestLayout();
+            }
+            isDoubleClick = false;
+        } else {
+            isDoubleClick = true;
+        }
+
         gdt.onTouchEvent(event);
+
         return true;
     }
 
@@ -87,9 +112,11 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-            if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+            if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE &&
+                    Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 startActivity(new Intent(PhotoActivity.this, ProfileActivity.class));
-            } else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+            } else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE &&
+                    Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 deleteImage();
             }
             return false;
@@ -97,6 +124,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void deleteImage() {
+
         if (new File(fileName).delete()) {
             Toast.makeText(PhotoActivity.this, "Фото успешно удалено",
                     Toast.LENGTH_SHORT).show();
